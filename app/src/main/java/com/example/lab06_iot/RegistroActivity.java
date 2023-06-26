@@ -43,7 +43,7 @@ public class RegistroActivity extends AppCompatActivity {
                 usuario.setCorreo(binding.editTextCorreo.getText().toString());
                 usuario.setContrasenha(binding.editTextTextPassword.getText().toString());
                 db.collection("usuarios")
-                        .document()
+                        .document(binding.editTextCorreo.getText().toString())
                         .set(usuario)
                         .addOnSuccessListener(unused -> {
                             Toast.makeText(this, "Usuario Creado", Toast.LENGTH_SHORT).show();
