@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                                             if(usuario.getContrasenha().equals(binding.editTextTextPassword.getText().toString())){
                                                 Intent intent = new Intent(this, ListaActivity.class);
                                                 intent.putExtra("Usuario", usuario.getCorreo());
+                                                finish();
                                                 startActivity(intent);
                                             }else {
                                                 Toast.makeText(this, "Error en correo o contraseña", Toast.LENGTH_SHORT).show();

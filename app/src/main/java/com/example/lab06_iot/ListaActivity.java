@@ -64,6 +64,7 @@ public class ListaActivity extends AppCompatActivity {
         //Ir a agregar Actividad
         binding.imageMas.setOnClickListener(view -> {
             Intent intent = new Intent(this, CrearActivity.class);
+            intent.putExtra("Usuario", usuario);
             startActivity(intent);
         });
     }

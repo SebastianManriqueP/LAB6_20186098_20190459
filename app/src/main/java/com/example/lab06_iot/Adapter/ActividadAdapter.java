@@ -6,15 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.lab06_iot.ListaActivity;
 import com.example.lab06_iot.Model.Actividades;
 import com.example.lab06_iot.Model.ActualizarActivity;
 import com.example.lab06_iot.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -22,6 +27,7 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
 
     private List<Actividades> listaActividades;
     private Context context;
+
 
     public List<Actividades> getListaActividades() {
         return listaActividades;
@@ -50,6 +56,25 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
     public void onBindViewHolder(@NonNull ActividadAdapter.ActividadViewHolder holder, int position) {
         Actividades act = listaActividades.get(position);
         holder.actividades = act;
+        //modificar:
+        TextView textViewTiutlo = holder.itemView.findViewById(R.id.textNombre);
+        textViewTiutlo.setText(act.getTitulo());
+        TextView textViewDescripcion = holder.itemView.findViewById(R.id.textDescripcion);
+        textViewDescripcion.setText(act.getDescripcion());
+        TextView textViewFecha = holder.itemView.findViewById(R.id.Fecha);
+        textViewFecha.setText(act.getFecha());
+        TextView textViewInicio = holder.itemView.findViewById(R.id.inicio);
+        textViewInicio.setText(act.getInicio());
+        TextView textViewFin = holder.itemView.findViewById(R.id.fin);
+        textViewFin.setText(act.getFin());
+        //Imagen:
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child(act.getImagen());
+        ImageView imageView = holder.itemView.findViewById(R.id.imageView3);
+        Glide.with(context)
+                .load(imageRef)
+                .into(imageView);
     }
 
     @Override

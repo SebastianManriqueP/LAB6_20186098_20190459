@@ -7,7 +7,7 @@
     tools:context=".Model.ActualizarActivity">
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/editTextActividad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/editTextDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -50,7 +50,7 @@
         android:inputType="textPersonName"
         android:text="DESCRIPCION"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextActividad" />
 
     <TextView
         android:id="@+id/textView9"
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/editTextFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="164dp"
@@ -73,7 +73,7 @@
         android:inputType="textPersonName"
         android:text="FECHA"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescripcion" />
 
     <TextView
         android:id="@+id/textView10"
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/editTextInicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -96,7 +96,7 @@
         android:inputType="textPersonName"
         android:text="HORARIO DE INICIO"
         app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextFecha" />
 
     <TextView
         android:id="@+id/textView11"
@@ -110,7 +110,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName6"
+        android:id="@+id/editTextFinal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -119,5 +119,5 @@
         android:inputType="textPersonName"
         android:text="HORARIO FINAL"
         app:layout_constraintStart_toEndOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName5" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextInicio" />
 </androidx.constraintlayout.widget.ConstraintLayout>
