@@ -1,5 +1,7 @@
 package com.example.lab06_iot.Model;
 
+import java.util.List;
+
 public class Usuario {
 
     private String nombre;

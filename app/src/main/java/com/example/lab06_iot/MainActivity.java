@@ -51,14 +51,15 @@ public class MainActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Usuario usuario = document.toObject(Usuario.class);
-                                            if(usuario.getContrasenha().equals(binding.editTextTextPersonName.getText().toString())){
+                                            if(usuario.getContrasenha().equals(binding.editTextTextPassword.getText().toString())){
                                                 Intent intent = new Intent(this, ListaActivity.class);
+                                                intent.putExtra("Usuario", usuario.getCorreo());
                                                 startActivity(intent);
                                             }else {
                                                 Toast.makeText(this, "Error en correo o contraseña", Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
-                                            Toast.makeText(this, "Error en correo o contraseña", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, "No existe user", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
                                         Log.d("msg-test", "get failed with ", task.getException());
