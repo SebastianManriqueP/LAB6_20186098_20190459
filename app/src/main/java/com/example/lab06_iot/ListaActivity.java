@@ -23,10 +23,6 @@ public class ListaActivity extends AppCompatActivity {
 
     ActividadAdapter actividadAdapter;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

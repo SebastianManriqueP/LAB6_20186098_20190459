@@ -91,6 +91,11 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
             botonInfo.setOnClickListener(view -> {
                 Intent intent = new Intent(context, ActualizarActivity.class);
                 intent.putExtra("idActividad", actividades.getId());
+                intent.putExtra("titulo",actividades.getTitulo());
+                intent.putExtra("descripcion",actividades.getDescripcion());
+                intent.putExtra("fecha",actividades.getFecha());
+                intent.putExtra("horini",actividades.getInicio());
+                intent.putExtra("horfin",actividades.getFin());
                 context.startActivity(intent);
             });
         }
