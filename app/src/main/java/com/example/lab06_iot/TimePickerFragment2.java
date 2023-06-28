@@ -12,7 +12,7 @@ import com.example.lab06_iot.Model.ActualizarActivity;
 
 import java.util.Calendar;
 
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+public class TimePickerFragment2 extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Calendar c = Calendar.getInstance();
@@ -30,7 +30,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         } else if (hour<6) {
             hour = 6; minute =0;
         }
-        actualizarActivity.respuestaTimeDialog(hour, minute);
-
+        actualizarActivity.respuestaTimeDialog2(hour,minute);
     }
 }
