@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.lab06_iot.DatePickerFragment;
 import com.example.lab06_iot.R;
 
 public class ActualizarActivity extends AppCompatActivity {
@@ -35,7 +37,7 @@ public class ActualizarActivity extends AppCompatActivity {
         horf.setText(horfin);
 
         date.setOnClickListener(view -> {
-
+            mostrarDateDialog();
         });
 
         Button button = findViewById(R.id.button2);
@@ -47,4 +49,14 @@ public class ActualizarActivity extends AppCompatActivity {
         });
 
     }
+    public void respuestaDateDialog(int year, int month, int day ){
+        Log.d("msg-test","year selected: " + year);
+        Log.d("msg-test","month selected: " + month);
+        Log.d("msg-test","day selected: " + day);
+    }
+    public void mostrarDateDialog(){
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(),"datepicker");
+    }
+
 }
