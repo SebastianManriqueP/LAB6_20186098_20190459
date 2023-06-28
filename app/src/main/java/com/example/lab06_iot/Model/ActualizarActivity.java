@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.example.lab06_iot.DatePickerFragment;
 import com.example.lab06_iot.R;
+import com.example.lab06_iot.TimePickerFragment;
 import com.google.protobuf.StringValue;
 
 public class ActualizarActivity extends AppCompatActivity {
@@ -33,16 +34,20 @@ public class ActualizarActivity extends AppCompatActivity {
 
         name.setText(nombre);
         descrip.setText(descripcion);
-       date.setText(fecha);
+        date.setText(fecha);
         hori.setText(horini);
         horf.setText(horfin);
 
 
         date.setOnClickListener(view -> {
             mostrarDateDialog();
+        });
 
-
-
+        hori.setOnClickListener(view -> {
+            mostrarTimeDialog();
+        });
+        horf.setOnClickListener(view -> {
+            mostrarTimeDialog();
         });
 
         Button button = findViewById(R.id.button2);
@@ -52,6 +57,7 @@ public class ActualizarActivity extends AppCompatActivity {
 
 
         });
+
 
     }
     public void respuestaDateDialog(int year, int month, int day ){
@@ -64,6 +70,18 @@ public class ActualizarActivity extends AppCompatActivity {
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getFragmentManager(),"datepicker");
 
+    }
+    public void respuestaTimeDialog(int hour, int minute){
+        EditText t = findViewById(R.id.editTextInicio);
+        t.setText(String.valueOf(hour)+":"+String.valueOf(minute));
+    }
+    public void respuestaTimeDialog2(int hour,int minute){
+        EditText t = findViewById(R.id.editTextFinal);
+        t.setText(String.valueOf(hour)+":"+String.valueOf(minute));
+    }
+    public void mostrarTimeDialog(){
+        TimePickerFragment timePickerFragment = new TimePickerFragment();
+        timePickerFragment.show(getSupportFragmentManager(),"timepicker");
     }
 
 }

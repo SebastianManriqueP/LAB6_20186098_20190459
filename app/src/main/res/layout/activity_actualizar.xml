@@ -96,8 +96,11 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="time"
         android:text="HORARIO DE INICIO"
+        android:clickable="true"
+        android:focusable="false"
+        android:maxLines="1"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/editTextFecha" />
 
