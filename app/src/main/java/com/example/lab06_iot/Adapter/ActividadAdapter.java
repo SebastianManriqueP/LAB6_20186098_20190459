@@ -2,6 +2,7 @@ package com.example.lab06_iot.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,9 @@ import com.example.lab06_iot.ListaActivity;
 import com.example.lab06_iot.Model.Actividades;
 import com.example.lab06_iot.Model.ActualizarActivity;
 import com.example.lab06_iot.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -97,6 +101,19 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
                 intent.putExtra("horini",actividades.getInicio());
                 intent.putExtra("horfin",actividades.getFin());
                 context.startActivity(intent);
+            });
+            Button borrar = itemView.findViewById(R.id.buttonBorrar);
+            borrar.setOnClickListener(view -> {
+                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                firebaseFirestore.collection("actividades").document(actividades.getId()).delete().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Unable to delete!", Toast.LENGTH_SHORT).show();
+                        Log.d("Firebase", "onComplete: Error Unable to delete : " + task.getException());
+                    }
+                });
+                notifyDataSetChanged();
             });
         }
     }
