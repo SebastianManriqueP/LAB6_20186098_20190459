@@ -47,7 +47,7 @@ public class ActualizarActivity extends AppCompatActivity {
             mostrarTimeDialog();
         });
         horf.setOnClickListener(view -> {
-            mostrarTimeDialog();
+            mostrarTimeDialog2();
         });
 
         Button button = findViewById(R.id.button2);
@@ -83,5 +83,8 @@ public class ActualizarActivity extends AppCompatActivity {
         TimePickerFragment timePickerFragment = new TimePickerFragment();
         timePickerFragment.show(getSupportFragmentManager(),"timepicker");
     }
-
+    public void mostrarTimeDialog2(){
+        TimePickerFragment timePickerFragment = new TimePickerFragment();
+        timePickerFragment.show(getSupportFragmentManager(),"timepicker2");
+    }
 }
