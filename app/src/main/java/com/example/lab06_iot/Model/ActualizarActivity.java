@@ -56,7 +56,7 @@ public class ActualizarActivity extends AppCompatActivity {
     }
     public void mostrarDateDialog(){
         DatePickerFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.show(getSupportFragmentManager(),"datepicker");
+        datePickerFragment.show(getFragmentManager(),"datepicker");
     }
 
 }
