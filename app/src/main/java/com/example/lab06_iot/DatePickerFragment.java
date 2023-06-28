@@ -14,8 +14,7 @@ import com.example.lab06_iot.Model.ActualizarActivity;
 
 import java.util.Calendar;
 
-public class DatePickerFragment extends DialogFragment
-        implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {

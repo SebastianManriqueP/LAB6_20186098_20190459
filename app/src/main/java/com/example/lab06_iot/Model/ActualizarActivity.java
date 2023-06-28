@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.example.lab06_iot.DatePickerFragment;
 import com.example.lab06_iot.R;
+import com.google.protobuf.StringValue;
 
 public class ActualizarActivity extends AppCompatActivity {
 
@@ -32,12 +33,16 @@ public class ActualizarActivity extends AppCompatActivity {
 
         name.setText(nombre);
         descrip.setText(descripcion);
-        date.setText(fecha);
+       date.setText(fecha);
         hori.setText(horini);
         horf.setText(horfin);
 
+
         date.setOnClickListener(view -> {
             mostrarDateDialog();
+
+
+
         });
 
         Button button = findViewById(R.id.button2);
@@ -50,13 +55,15 @@ public class ActualizarActivity extends AppCompatActivity {
 
     }
     public void respuestaDateDialog(int year, int month, int day ){
-        Log.d("msg-test","year selected: " + year);
-        Log.d("msg-test","month selected: " + month);
-        Log.d("msg-test","day selected: " + day);
+
+        EditText t = findViewById(R.id.editTextFecha);
+        t.setText(String.valueOf(day)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
+
     }
     public void mostrarDateDialog(){
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getFragmentManager(),"datepicker");
+
     }
 
 }

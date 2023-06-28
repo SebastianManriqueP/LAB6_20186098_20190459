@@ -70,7 +70,7 @@
         android:layout_marginStart="164dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="date"
         android:text="FECHA"
         android:clickable="true"
         android:focusable="false"
