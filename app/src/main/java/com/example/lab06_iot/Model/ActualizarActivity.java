@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.lab06_iot.R;
@@ -32,6 +33,18 @@ public class ActualizarActivity extends AppCompatActivity {
         date.setText(fecha);
         hori.setText(horini);
         horf.setText(horfin);
+
+        date.setOnClickListener(view -> {
+
+        });
+
+        Button button = findViewById(R.id.button2);
+        button.setOnClickListener(view -> {
+            String nuevoNombre = name.getText().toString();
+            String nuevaDescripcion = name.getText().toString();
+
+
+        });
 
     }
 }
