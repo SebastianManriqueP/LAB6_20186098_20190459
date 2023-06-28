@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.example.lab06_iot.DatePickerFragment;
 import com.example.lab06_iot.R;
 import com.example.lab06_iot.TimePickerFragment;
+import com.example.lab06_iot.TimePickerFragment2;
 import com.google.protobuf.StringValue;
 
 public class ActualizarActivity extends AppCompatActivity {
@@ -84,7 +85,7 @@ public class ActualizarActivity extends AppCompatActivity {
         timePickerFragment.show(getSupportFragmentManager(),"timepicker");
     }
     public void mostrarTimeDialog2(){
-        TimePickerFragment timePickerFragment = new TimePickerFragment();
-        timePickerFragment.show(getSupportFragmentManager(),"timepicker2");
+        TimePickerFragment2 timePickerFragment2 = new TimePickerFragment2();
+        timePickerFragment2.show(getSupportFragmentManager(),"timepicker2");
     }
 }
