@@ -26,6 +26,7 @@ import com.example.lab06_iot.databinding.ActivityCrearBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -124,7 +125,7 @@ public class CrearActivity extends AppCompatActivity {
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
                 StorageReference imageRef = storageRef.child("img" + nombre + ".jpg");
-                imageRef.putFile(imageUri);
+                UploadTask uploadTask = imageRef.putFile(imageUri);
                 //enviar datos
                 Bundle parametros = this.getIntent().getExtras();
                 String usuario = parametros.getString("Usuario");
@@ -137,8 +138,10 @@ public class CrearActivity extends AppCompatActivity {
                         });
                 Intent intent = new Intent(this, ListaActivity.class);
                 intent.putExtra("Usuario", usuario);
-                finishAffinity();
-                startActivity(intent);
+                uploadTask.addOnSuccessListener(taskSnapshot -> {
+                    finishAffinity();
+                    startActivity(intent);
+                });
             }
         });
         //Boton regresar
