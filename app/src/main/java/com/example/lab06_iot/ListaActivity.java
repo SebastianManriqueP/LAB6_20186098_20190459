@@ -2,6 +2,7 @@ package com.example.lab06_iot;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,12 +46,13 @@ public class ListaActivity extends AppCompatActivity {
                             actividad.setId(document.getId());
                             actividadesList.add(actividad);
                         }
+                        RecyclerView recyclerView = findViewById(R.id.recyclerView);
                         //Listar Actividades:
                         //enviar al adapter
                         actividadAdapter = new ActividadAdapter();
+                        actividadAdapter.setUser(usuario);
                         actividadAdapter.setListaActividades(actividadesList);
                         actividadAdapter.setContext(ListaActivity.this);
-
                         binding.recyclerView.setAdapter(actividadAdapter);
                         binding.recyclerView.setLayoutManager(new LinearLayoutManager(ListaActivity.this));
                     }

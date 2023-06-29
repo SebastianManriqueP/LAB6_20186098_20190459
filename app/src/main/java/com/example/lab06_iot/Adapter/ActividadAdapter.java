@@ -2,6 +2,7 @@ package com.example.lab06_iot.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +26,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.ActividadViewHolder>{
 
     private List<Actividades> listaActividades;
     private Context context;
+    private String user;
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
 
     public List<Actividades> getListaActividades() {
         return listaActividades;
@@ -105,15 +115,17 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
             Button borrar = itemView.findViewById(R.id.buttonBorrar);
             borrar.setOnClickListener(view -> {
                 FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-                firebaseFirestore.collection("actividades").document(actividades.getId()).delete().addOnCompleteListener(task -> {
+                firebaseFirestore.collection("usuarios").document(user).collection("actividades").document(actividades.getId().toString()).delete().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        listaActividades.remove(actividades);
+                        notifyDataSetChanged();
                         Toast.makeText(getContext(), "Deleted Successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Unable to delete!", Toast.LENGTH_SHORT).show();
                         Log.d("Firebase", "onComplete: Error Unable to delete : " + task.getException());
                     }
                 });
-                notifyDataSetChanged();
+
             });
         }
     }
