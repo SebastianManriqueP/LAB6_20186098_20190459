@@ -104,6 +104,7 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
             Button botonInfo = itemView.findViewById(R.id.buttonInfo);
             botonInfo.setOnClickListener(view -> {
                 Intent intent = new Intent(context, ActualizarActivity.class);
+                intent.putExtra("usuario",user);
                 intent.putExtra("idActividad", actividades.getId());
                 intent.putExtra("titulo",actividades.getTitulo());
                 intent.putExtra("descripcion",actividades.getDescripcion());

@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.lab06_iot.DatePickerFragment;
+import com.example.lab06_iot.ListaActivity;
 import com.example.lab06_iot.R;
 import com.example.lab06_iot.TimePickerFragment;
 import com.example.lab06_iot.TimePickerFragment2;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.protobuf.StringValue;
 
 public class ActualizarActivity extends AppCompatActivity {
@@ -21,6 +24,7 @@ public class ActualizarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar);
         Intent intent = getIntent();
+        String usuario = intent.getStringExtra("usuario");
         String id = intent.getStringExtra("idActividad");
         String nombre = intent.getStringExtra("titulo");
         String descripcion = intent.getStringExtra("descripcion");
@@ -54,8 +58,30 @@ public class ActualizarActivity extends AppCompatActivity {
         Button button = findViewById(R.id.button2);
         button.setOnClickListener(view -> {
             String nuevoNombre = name.getText().toString();
-            String nuevaDescripcion = name.getText().toString();
-
+            String nuevaDescripcion = descrip.getText().toString();
+            String nuevaFecha = date.getText().toString();
+            String nuevaHori = hori.getText().toString();
+            String nuevaHorf = horf.getText().toString();
+            Actividades actualizadaActividad = new Actividades();
+            actualizadaActividad.setId(id);
+            actualizadaActividad.setDescripcion(nuevaDescripcion);
+            actualizadaActividad.setTitulo(nuevoNombre);
+            actualizadaActividad.setFecha(nuevaFecha);
+            actualizadaActividad.setInicio(nuevaHori);
+            actualizadaActividad.setFin(nuevaHorf);
+            actualizadaActividad.setImagen("img" + nuevoNombre + ".jpg");
+            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+            firebaseFirestore.collection("usuarios")
+                    .document(usuario)
+                    .collection("actividades")
+                    .document(id)
+                    .set(actualizadaActividad).addOnSuccessListener(unused -> {
+                        Toast.makeText(this, "ACTUALIZADO", Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> e.printStackTrace());
+            Intent intentN = new Intent(this, ListaActivity.class);
+            intentN.putExtra("Usuario", usuario);
+            finishAffinity();
+            startActivity(intentN);
 
         });
 
