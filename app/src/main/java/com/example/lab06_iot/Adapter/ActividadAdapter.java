@@ -78,9 +78,9 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
         TextView textViewFecha = holder.itemView.findViewById(R.id.Fecha);
         textViewFecha.setText(act.getFecha());
         TextView textViewInicio = holder.itemView.findViewById(R.id.inicio);
-        textViewInicio.setText(act.getInicio());
+        textViewInicio.setText("INICO: "+act.getInicio());
         TextView textViewFin = holder.itemView.findViewById(R.id.fin);
-        textViewFin.setText(act.getFin());
+        textViewFin.setText("FIN: "+act.getFin());
         //Imagen:
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();

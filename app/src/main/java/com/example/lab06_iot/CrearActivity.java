@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +13,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 
@@ -25,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,6 +47,14 @@ public class CrearActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private boolean comprobarImagen = false;
 
+    //variables para dia
+    Calendar calendar = Calendar.getInstance();
+    int ahno = calendar.get(Calendar.YEAR);
+    int mes = calendar.get(Calendar.MONTH);
+    int dia = calendar.get(Calendar.DAY_OF_MONTH);
+    int hora = calendar.get(Calendar.HOUR_OF_DAY);
+    int minutos = calendar.get(Calendar.MINUTE);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +62,7 @@ public class CrearActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         db = FirebaseFirestore.getInstance();
+
 
         //AL darle al boton de subir imagen
         binding.buttonSubir.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +73,28 @@ public class CrearActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
+        });
+
+        //Boton Fecha
+        EditText date = findViewById(R.id.editTextFecha);
+        date.setOnClickListener(view -> {
+            final Calendar c=Calendar.getInstance();
+            dia=c.get(Calendar.DAY_OF_MONTH);
+            mes=c.get(Calendar.MONTH);
+            ahno=c.get(Calendar.YEAR);
+
+            mostrarDateDialog();
+        });
+
+        //BOTON HORA INICIO
+        binding.editTextInicio.setOnClickListener(view ->{
+            mostrarTimeDialogIni();
+        });
+
+        //BOTON HORA FIN
+
+        binding.editTextFinal.setOnClickListener(view -> {
+            mostrarTimeDialogFin();
         });
 
         //Al darle al boton crear
@@ -122,6 +160,45 @@ public class CrearActivity extends AppCompatActivity {
             binding.imageView4.setImageURI(imageUri);
             comprobarImagen = true;
         }
+    }
+
+    public void mostrarDateDialog(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                binding.editTextFecha.setText(day+"/"+(month+1)+"/"+year);
+            }
+        },ahno,mes,dia);
+        datePickerDialog.show();
+    }
+
+    public void mostrarTimeDialogIni() {
+        TimePickerDialog timePickerDialog =new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hora, int minuto) {
+                String minSTr = ""+minuto;
+                if (minuto < 10) {
+                    minSTr = "0" + minuto;
+                }
+                binding.editTextInicio.setText(hora + ":" + minSTr);
+            }
+        },hora,minutos,true);
+        timePickerDialog.show();
+    }
+
+    public void mostrarTimeDialogFin() {
+        TimePickerDialog timePickerDialog =new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hora, int minuto) {
+                String minSTr = ""+minuto;
+                if (minuto < 10) {
+                    minSTr = "0" + minuto;
+                }
+                binding.editTextFinal.setText(hora + ":" + minSTr);
+            }
+        },hora,minutos,true);
+        timePickerDialog.show();
     }
 
 }

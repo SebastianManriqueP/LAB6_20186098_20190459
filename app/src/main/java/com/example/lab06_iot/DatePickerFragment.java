@@ -20,6 +20,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         ActualizarActivity actualizarActivity = (ActualizarActivity)getActivity();
         actualizarActivity.respuestaDateDialog(year,month,day);
+
     }
     @NonNull
     @Override

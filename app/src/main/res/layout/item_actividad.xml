@@ -9,9 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#4CD9D9D9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,13 +114,14 @@
                 android:id="@+id/buttonBorrar"
                 style="@style/Widget.Material3.Button"
                 android:layout_width="81dp"
-                android:layout_height="31dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
+                android:backgroundTint="#9E0808"
                 android:text="Borrar"
                 android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonInfo"
                 app:layout_constraintStart_toEndOf="@+id/buttonInfo"
-                app:layout_constraintTop_toBottomOf="@+id/fin" />
+                app:layout_constraintTop_toTopOf="@+id/buttonInfo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
