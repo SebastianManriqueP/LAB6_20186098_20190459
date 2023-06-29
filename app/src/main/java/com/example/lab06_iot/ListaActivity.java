@@ -64,21 +64,24 @@ public class ListaActivity extends AppCompatActivity {
                         }
                         RecyclerView recyclerView = findViewById(R.id.recyclerView);
                         //Listar Actividades:
-                        //enviar al adapter
-                        actividadAdapter = new ActividadAdapter();
-                        actividadAdapter.setUser(usuario);
-                        actividadAdapter.setListaActividades(actividadesList);
-                        actividadAdapter.setContext(ListaActivity.this);
-                        binding.recyclerView.setAdapter(actividadAdapter);
-                        binding.recyclerView.setLayoutManager(new LinearLayoutManager(ListaActivity.this));
-                        if(actividadesList.isEmpty()){
+                        List<Actividades> actividadesHoy = new ArrayList<>();
+                        dia = calendar.get(Calendar.DAY_OF_MONTH);
+                        mes = calendar.get(Calendar.MONTH);
+                        ahno = calendar.get(Calendar.YEAR);
+                        String fecha=dia+"/"+(mes+1)+"/"+ahno;
+                        for (Actividades act : actividadesList){
+                            if(act.getFecha().equals(fecha)){
+                                actividadesHoy.add(act);
+                            }
+                        }
+                        if(actividadesHoy.isEmpty()){
                             //si no hay actividades
                             binding.textNO.setVisibility(View.VISIBLE);
                         }else {
                             //enviar al adapter:
                             actividadAdapter = new ActividadAdapter();
                             actividadAdapter.setUser(usuario);
-                            actividadAdapter.setListaActividades(actividadesList);
+                            actividadAdapter.setListaActividades(actividadesHoy);
                             actividadAdapter.setContext(ListaActivity.this);
 
                             binding.recyclerView.setAdapter(actividadAdapter);
