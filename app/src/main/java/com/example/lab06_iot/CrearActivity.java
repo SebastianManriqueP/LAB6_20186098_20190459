@@ -31,6 +31,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -120,28 +121,41 @@ public class CrearActivity extends AppCompatActivity {
                 String fecha = binding.editTextFecha.getText().toString();
                 String inicio = binding.editTextInicio.getText().toString();
                 String fin = binding.editTextFinal.getText().toString();
-                Actividades act = new Actividades(nombre, descripcion, fecha, inicio, fin, "img" + nombre + ".jpg");
-                //enviar imagen
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
-                StorageReference imageRef = storageRef.child("img" + nombre + ".jpg");
-                UploadTask uploadTask = imageRef.putFile(imageUri);
-                //enviar datos
-                Bundle parametros = this.getIntent().getExtras();
-                String usuario = parametros.getString("Usuario");
-                db.collection("usuarios")
-                        .document(usuario)
-                        .collection("actividades")
-                        .document()
-                        .set(act).addOnSuccessListener(unused -> {
-                            Toast.makeText(this, "Creado", Toast.LENGTH_SHORT).show();
-                        });
-                Intent intent = new Intent(this, ListaActivity.class);
-                intent.putExtra("Usuario", usuario);
-                uploadTask.addOnSuccessListener(taskSnapshot -> {
-                    finishAffinity();
-                    startActivity(intent);
-                });
+
+                //Verificar tiempo de inicio menor a final
+                String[] inicioList = inicio.split(":");
+                String[] finalList = fin.split(":");
+                LocalTime tiempoInicio = LocalTime.of(Integer.parseInt(inicioList[0]), Integer.parseInt(inicioList[1]));
+                LocalTime tiempoFinal = LocalTime.of(Integer.parseInt(finalList[0]), Integer.parseInt(finalList[1]));
+
+                int comparacion = tiempoInicio.compareTo(tiempoFinal);
+
+                if (comparacion < 0) {
+                    Actividades act = new Actividades(nombre, descripcion, fecha, inicio, fin, "img" + nombre + ".jpg");
+                    //enviar imagen
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReference();
+                    StorageReference imageRef = storageRef.child("img" + nombre + ".jpg");
+                    UploadTask uploadTask = imageRef.putFile(imageUri);
+                    //enviar datos
+                    Bundle parametros = this.getIntent().getExtras();
+                    String usuario = parametros.getString("Usuario");
+                    db.collection("usuarios")
+                            .document(usuario)
+                            .collection("actividades")
+                            .document()
+                            .set(act).addOnSuccessListener(unused -> {
+                                Toast.makeText(this, "Creado", Toast.LENGTH_SHORT).show();
+                            });
+                    Intent intent = new Intent(this, ListaActivity.class);
+                    intent.putExtra("Usuario", usuario);
+                    uploadTask.addOnSuccessListener(taskSnapshot -> {
+                        finishAffinity();
+                        startActivity(intent);
+                    });
+                } else {
+                    Toast.makeText(this, "Tiempo de inicio debe ser menor al final", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //Boton regresar
