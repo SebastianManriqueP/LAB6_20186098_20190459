@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -113,30 +114,99 @@ public class ListaActivity extends AppCompatActivity {
         });
         //BOTON APLICAR:
         binding.button3.setOnClickListener(view -> {
-            //Validaciones
-            //Hora:
-            String horaInicio = binding.editTextInHora.getText().toString();
-            String horaFin = binding.editTextFinHora.getText().toString();
-            String[] horaIn = horaInicio.split(":");
-            String[] horaF = horaFin.split(":");
-            //fechas:
-            String fechaInicio = binding.editTextInFecha.getText().toString();
-            String fechaFin = binding.editTextFinFecha.getText().toString();
-            String[] fechaIn = fechaInicio.split("/");
-            String[] fechaF = fechaFin.split("/");
-            if (Integer.parseInt(fechaF[2])<Integer.parseInt(fechaIn[2])) {
-                fechaMayor();
-            } else if (Integer.parseInt(fechaF[1])<Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])<=Integer.parseInt(fechaIn[2]) ) {
-                fechaMayor();
-            } else if (Integer.parseInt(fechaF[0])<Integer.parseInt(fechaIn[0]) && Integer.parseInt(fechaF[1])<Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])<=Integer.parseInt(fechaIn[2]) ) {
-                fechaMayor();
-            } else if (Integer.parseInt(fechaF[0])<Integer.parseInt(fechaIn[0]) && Integer.parseInt(fechaF[1])==Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])<=Integer.parseInt(fechaIn[2]) ) {
-                fechaMayor();
-            } else if (Integer.parseInt(fechaF[0])==Integer.parseInt(fechaIn[0]) && Integer.parseInt(fechaF[1])==Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])==Integer.parseInt(fechaIn[2])) {
-                if(Integer.parseInt(horaF[0])<Integer.parseInt(horaIn[0])){
-                    HoraMayor();
-                } else if (Integer.parseInt(horaF[0])==Integer.parseInt(horaIn[0]) &&  Integer.parseInt(horaF[1])<=Integer.parseInt(horaIn[1])) {
-                    HoraMayor();
+
+            if(TextUtils.isEmpty(binding.editTextInHora.getText().toString().trim()) || TextUtils.isEmpty(binding.editTextFinHora.getText().toString().trim()) || TextUtils.isEmpty(binding.editTextInFecha.getText().toString().trim()) || TextUtils.isEmpty(binding.editTextFinFecha.getText().toString().trim())){
+                Toast.makeText(this, "LLenar todos los campos", Toast.LENGTH_SHORT).show();
+            }else{
+                //Validaciones
+                //Hora:
+                String horaInicio = binding.editTextInHora.getText().toString();
+                String horaFin = binding.editTextFinHora.getText().toString();
+                String[] horaIn = horaInicio.split(":");
+                String[] horaF = horaFin.split(":");
+                //fechas:
+                String fechaInicio = binding.editTextInFecha.getText().toString();
+                String fechaFin = binding.editTextFinFecha.getText().toString();
+                String[] fechaIn = fechaInicio.split("/");
+                String[] fechaF = fechaFin.split("/");
+                if (Integer.parseInt(fechaF[2])<Integer.parseInt(fechaIn[2])) {
+                    fechaMayor();
+                } else if (Integer.parseInt(fechaF[1])<Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])<=Integer.parseInt(fechaIn[2]) ) {
+                    fechaMayor();
+                } else if (Integer.parseInt(fechaF[0])<Integer.parseInt(fechaIn[0]) && Integer.parseInt(fechaF[1])<Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])<=Integer.parseInt(fechaIn[2]) ) {
+                    fechaMayor();
+                } else if (Integer.parseInt(fechaF[0])<Integer.parseInt(fechaIn[0]) && Integer.parseInt(fechaF[1])==Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])<=Integer.parseInt(fechaIn[2]) ) {
+                    fechaMayor();
+                } else if (Integer.parseInt(fechaF[0])==Integer.parseInt(fechaIn[0]) && Integer.parseInt(fechaF[1])==Integer.parseInt(fechaIn[1]) && Integer.parseInt(fechaF[2])==Integer.parseInt(fechaIn[2])) {
+                    if(Integer.parseInt(horaF[0])<Integer.parseInt(horaIn[0])){
+                        HoraMayor();
+                    } else if (Integer.parseInt(horaF[0])==Integer.parseInt(horaIn[0]) &&  Integer.parseInt(horaF[1])<=Integer.parseInt(horaIn[1])) {
+                        HoraMayor();
+                    } else {
+                        List<Actividades> actividadesListFiltrado = new ArrayList<>();
+                        for (Actividades actividades : actividadesList) {
+                            String[] actividadesFecha = actividades.getFecha().split("/");
+                            String[] actividadesHoraInicio = actividades.getInicio().split(":");
+                            String[] actividadesHoraFin = actividades.getFin().split(":");
+
+                            LocalDate fecha1 = LocalDate.of(Integer.parseInt(actividadesFecha[2]), Integer.parseInt(actividadesFecha[1]), Integer.parseInt(actividadesFecha[0]));
+                            LocalDate fecha2 = LocalDate.of(Integer.parseInt(fechaIn[2]), Integer.parseInt(fechaIn[1]), Integer.parseInt(fechaIn[0]));
+                            LocalDate fecha3 = LocalDate.of(Integer.parseInt(fechaF[2]), Integer.parseInt(fechaF[1]), Integer.parseInt(fechaF[0]));
+
+                            int comparacion = fecha1.compareTo(fecha2);
+
+                            if (comparacion > 0) {
+                                //fecha es posterior a fecha in filtro
+                                int comparacion2 = fecha1.compareTo(fecha3);
+                                if (comparacion2 < 0) {
+                                    actividadesListFiltrado.add(actividades);
+                                }else if (comparacion2 == 0) {
+                                    LocalTime tiempoinicioAct = LocalTime.of(Integer.parseInt(actividadesHoraInicio[0]), Integer.parseInt(actividadesHoraInicio[1]));
+                                    LocalTime tiempoinFiltro = LocalTime.of(Integer.parseInt(horaF[0]), Integer.parseInt(horaF[1]));
+
+                                    int comparaciontiempo = tiempoinicioAct.compareTo(tiempoinFiltro);
+
+                                    if (comparaciontiempo > 0) {
+                                        System.out.println("tiempo1 es posterior a tiempo2");
+                                    } else if (comparaciontiempo < 0) {
+                                        System.out.println("tiempo1 es anterior a tiempo2");
+                                        actividadesListFiltrado.add(actividades);
+                                    }
+                                }
+                            } else if (comparacion < 0) {
+                                //fecha1 es anterior a fecha2
+                            } else {
+                                //fecha1 es igual a inicioFiltro
+                                //Comparar por horas
+                                LocalTime tiempoinicioAct = LocalTime.of(Integer.parseInt(actividadesHoraInicio[0]), Integer.parseInt(actividadesHoraInicio[1]));
+                                LocalTime tiempoFinFiltro = LocalTime.of(Integer.parseInt(horaIn[0]), Integer.parseInt(horaIn[1]));
+
+                                int comparaciontiempo = tiempoinicioAct.compareTo(tiempoFinFiltro);
+
+                                if (comparaciontiempo > 0) {
+                                    System.out.println("tiempo1 es posterior a tiempo2");
+                                    actividadesListFiltrado.add(actividades);
+                                } else if (comparaciontiempo < 0) {
+                                    System.out.println("tiempo1 es anterior a tiempo2");
+                                } else {
+                                    System.out.println("tiempo1 es igual a tiempo2");
+                                    actividadesListFiltrado.add(actividades);
+                                }
+                            }
+                        }
+                        //mandar al filto:
+                        if (actividadesListFiltrado.isEmpty()) {
+                            //si no hay actividades
+                            binding.textNO.setText("No se hay actividades para estas fechas");
+                            binding.textNO.setVisibility(View.VISIBLE);
+                        }else{
+                            binding.textNO.setVisibility(View.GONE);
+                        }
+                        actividadAdapter.setListaActividades(actividadesListFiltrado);
+                        binding.recyclerView.setAdapter(actividadAdapter);
+                        binding.recyclerView.setLayoutManager(new LinearLayoutManager(ListaActivity.this));
+
+                    }
                 } else {
                     List<Actividades> actividadesListFiltrado = new ArrayList<>();
                     for (Actividades actividades : actividadesList) {
@@ -194,74 +264,13 @@ public class ListaActivity extends AppCompatActivity {
                         //si no hay actividades
                         binding.textNO.setText("No se hay actividades para estas fechas");
                         binding.textNO.setVisibility(View.VISIBLE);
+                    }else{
+                        binding.textNO.setVisibility(View.GONE);
                     }
                     actividadAdapter.setListaActividades(actividadesListFiltrado);
                     binding.recyclerView.setAdapter(actividadAdapter);
                     binding.recyclerView.setLayoutManager(new LinearLayoutManager(ListaActivity.this));
-
                 }
-            } else {
-                List<Actividades> actividadesListFiltrado = new ArrayList<>();
-                for (Actividades actividades : actividadesList) {
-                    String[] actividadesFecha = actividades.getFecha().split("/");
-                    String[] actividadesHoraInicio = actividades.getInicio().split(":");
-                    String[] actividadesHoraFin = actividades.getFin().split(":");
-
-                    LocalDate fecha1 = LocalDate.of(Integer.parseInt(actividadesFecha[2]), Integer.parseInt(actividadesFecha[1]), Integer.parseInt(actividadesFecha[0]));
-                    LocalDate fecha2 = LocalDate.of(Integer.parseInt(fechaIn[2]), Integer.parseInt(fechaIn[1]), Integer.parseInt(fechaIn[0]));
-                    LocalDate fecha3 = LocalDate.of(Integer.parseInt(fechaF[2]), Integer.parseInt(fechaF[1]), Integer.parseInt(fechaF[0]));
-
-                    int comparacion = fecha1.compareTo(fecha2);
-
-                    if (comparacion > 0) {
-                        //fecha es posterior a fecha in filtro
-                        int comparacion2 = fecha1.compareTo(fecha3);
-                        if (comparacion2 < 0) {
-                            actividadesListFiltrado.add(actividades);
-                        }else if (comparacion2 == 0) {
-                            LocalTime tiempoinicioAct = LocalTime.of(Integer.parseInt(actividadesHoraInicio[0]), Integer.parseInt(actividadesHoraInicio[1]));
-                            LocalTime tiempoinFiltro = LocalTime.of(Integer.parseInt(horaF[0]), Integer.parseInt(horaF[1]));
-
-                            int comparaciontiempo = tiempoinicioAct.compareTo(tiempoinFiltro);
-
-                            if (comparaciontiempo > 0) {
-                                System.out.println("tiempo1 es posterior a tiempo2");
-                            } else if (comparaciontiempo < 0) {
-                                System.out.println("tiempo1 es anterior a tiempo2");
-                                actividadesListFiltrado.add(actividades);
-                            }
-                        }
-                    } else if (comparacion < 0) {
-                        //fecha1 es anterior a fecha2
-                    } else {
-                        //fecha1 es igual a inicioFiltro
-                        //Comparar por horas
-                        LocalTime tiempoinicioAct = LocalTime.of(Integer.parseInt(actividadesHoraInicio[0]), Integer.parseInt(actividadesHoraInicio[1]));
-                        LocalTime tiempoFinFiltro = LocalTime.of(Integer.parseInt(horaIn[0]), Integer.parseInt(horaIn[1]));
-
-                        int comparaciontiempo = tiempoinicioAct.compareTo(tiempoFinFiltro);
-
-                        if (comparaciontiempo > 0) {
-                            System.out.println("tiempo1 es posterior a tiempo2");
-                            actividadesListFiltrado.add(actividades);
-                        } else if (comparaciontiempo < 0) {
-                            System.out.println("tiempo1 es anterior a tiempo2");
-                        } else {
-                            System.out.println("tiempo1 es igual a tiempo2");
-                            actividadesListFiltrado.add(actividades);
-                        }
-                    }
-                }
-                //mandar al filto:
-                if (actividadesListFiltrado.isEmpty()) {
-                    //si no hay actividades
-                    binding.textNO.setText("No se hay actividades para estas fechas");
-                    binding.textNO.setVisibility(View.VISIBLE);
-                }
-                    actividadAdapter.setListaActividades(actividadesListFiltrado);
-                    binding.recyclerView.setAdapter(actividadAdapter);
-                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(ListaActivity.this));
-
             }
         });
     }
